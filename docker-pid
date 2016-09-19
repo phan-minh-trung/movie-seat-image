@@ -1,0 +1,5 @@
+#!/bin/sh
+
+exec docker inspect --format '{{ .State.Pid }}' "$@"
+
+exec docker inspect --format '{{ .NetworkSettings.IPAddress }}' "$@"
