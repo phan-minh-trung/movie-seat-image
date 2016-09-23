@@ -28,8 +28,13 @@ $ docker inspect b18889f8a58a | grep -w "IPAddress" | awk '{ print $2 }' | head 
 "172.17.0.2"
 
 # SSH to docker container
+export TERM=xterm
 $ docker exec -i -t b18889f8a58a /bin/bash
 
+
+# Docker history
+$ docker history movie_seat_image
+$ docker tag 64350cabd1d4 movie_seat_image
 
 # Uninstall Nginx
 apt-get remove nginx nginx-common # Removes all but config files.

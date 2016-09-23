@@ -1,0 +1,15 @@
+alias docker="sudo /usr/local/bin/docker"
+
+export PORT=`echo "9000 + ${PR_ID}" | bc`
+export OLD_ID=$(docker ps -q -f name=movie_seat_$PORT)
+[ -z "$OLD_ID" ] && echo "Not found old container id" || docker rm -f $OLD_ID
+
+docker images
+docker run --name movie_seat_$PORT -d -p $PORT:80 -i movie_seat_image
+echo "Build finished with contaner id"
+export CONTAINER_ID=$(docker ps -q -f name=movie_seat_$PORT)
+echo $CONTAINER_ID
+
+docker exec $CONTAINER_ID /srv/nginx_domain.sh localhost ${PR_ID}
+
+echo "Test link: http://0.0.0.0:$PORT/index.php"
